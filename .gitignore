@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 
 train/data/images/*
+train/data/*
+train/working/
 
 preprocess/data/*.csv
 preprocess/data/images/*
