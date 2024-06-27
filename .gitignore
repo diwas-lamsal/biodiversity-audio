@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+train/data/images/*
+
+preprocess/data/*.csv
+preprocess/data/images/*
+preprocess/data/sounds/*
+preprocess/data/temp/*
+
+!*/.gitkeep
+!*/*/.gitkeep
+!*/*/*/.gitkeep
+!*/*/*/*/.gitkeep
