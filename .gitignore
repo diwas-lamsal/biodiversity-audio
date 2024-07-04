@@ -3,9 +3,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-train/data/images/*
-train/data/*
-train/working/
+train_image/data/images/*
+train_image/data/*
+train_image/working/
+
+train_audio/data/sounds/*
+train_audio/data/dataframes/*
+train_audio/pretrained/*
+train_audio/out_weights/*
+train_audio/logs/*
 
 preprocess/data/*.csv
 preprocess/data/images/*
@@ -16,3 +22,4 @@ preprocess/data/temp/*
 !*/*/.gitkeep
 !*/*/*/.gitkeep
 !*/*/*/*/.gitkeep
+

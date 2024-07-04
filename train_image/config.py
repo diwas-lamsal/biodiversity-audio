@@ -10,8 +10,9 @@ class Config(ConfigBaseModel):
     seed = 42
     fit_verbose = 2
     ## data
-    dataset_dir = "./data/images/"
-    data_stats_path = "./data/img_stats.csv"
+    # dataset_dir = "./data/images/"
+    dataset_dir = "../../../Dataset/AIC_BirdDataset/images/"    
+    data_stats_path = "./data/img_stats_full.csv"
     label = "label"
     n_label = 67
     img_size = (128, 256) # Same as defined in the preprocess step
