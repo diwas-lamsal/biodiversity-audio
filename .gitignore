@@ -9,6 +9,7 @@ train_image/working/
 
 train_audio/data/sounds/*
 train_audio/data/dataframes/*
+train_audio/data/external/*
 train_audio/pretrained/*
 train_audio/out_weights/*
 train_audio/logs/*

@@ -20,8 +20,8 @@ cfg.train_audio_dir = "./data/sounds/"
 cfg.train_df_dir = "./data/dataframes/"
 cfg.train_pkl_file = "ait_train_meta.pickle"
 cfg.nocall_pkl_file = "ff1010bird_metadata_v1_pseudo.pickle"
-cfg.short_noise_dir = "/home/aic-multicam20/biodiversity/Dataset/esc50/use_label"
-cfg.background_noise_dir = "/home/aic-multicam20/biodiversity/Dataset/zenodo_nocall_30sec"
+cfg.short_noise_dir = "./data/external/esc50/use_label"
+cfg.background_noise_dir = "./data/external/zenodo_nocall_30sec"
 
 ######################
 # Dataset #
