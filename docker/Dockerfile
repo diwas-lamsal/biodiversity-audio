@@ -22,7 +22,8 @@ RUN pip install --no-cache-dir \
     audiomentations==0.36.0 \
     torch-audiomentations==0.11.1
 
-RUN pip install --no-cache-dir matplotlib==3.7.3 scipy==1.9.3 seaborn==0.12.1 pyyaml
+RUN pip install --no-cache-dir matplotlib==3.7.3 scipy==1.9.3 seaborn==0.12.1 pyyaml fastapi uvicorn
 
 WORKDIR /home/work
 
+EXPOSE 5000

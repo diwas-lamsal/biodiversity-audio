@@ -1,21 +1,19 @@
-import os
-import warnings
-from pathlib import Path
-
-import numpy as np
-import pandas as pd
-import librosa
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import JSONResponse
 import torch
-from tqdm.auto import tqdm
+from model import AttModel
+import librosa
+import numpy as np
+from pathlib import Path
+import os
 import argparse
 import sys
 from copy import copy
 import importlib
+import pandas as pd
 from dataset import TestDataset
-from model import AttModel
-import torch.nn.functional as F
 
-warnings.filterwarnings("ignore")
+app = FastAPI()
 
 sys.path.append('./configs')
 
@@ -26,6 +24,7 @@ parser.add_argument("-A", "--audio", help="audio file path", default="./data/sou
 parser.add_argument("-E", "--export", help="export folder path", default="./exports/")
 parser_args, _ = parser.parse_known_args(sys.argv)
 CFG = copy(importlib.import_module(parser_args.config).cfg)
+
 
 model = AttModel(
     backbone=CFG.backbone,
@@ -65,14 +64,13 @@ def prediction_for_clip(audio_path):
         clip=clip,
         cfg=CFG,
     )
-        
+
     loader = torch.utils.data.DataLoader(
         dataset,
         **CFG.loader_params['valid']
     )
     
-    for i, inputs in enumerate(tqdm(loader)):
-        
+    for inputs in loader:
         row_ids = inputs['row_id']
         inputs.pop('row_id')
 
@@ -94,16 +92,41 @@ def prediction_for_clip(audio_path):
 
     return prediction_dict, classification_dict
 
-prediction_dict, classification_dict = prediction_for_clip(parser_args.audio)
 
-os.makedirs(parser_args.export, exist_ok=True)
 
-logit_df = pd.DataFrame.from_dict(prediction_dict, "index").rename_axis("row_id").reset_index()
-logit_export_path = os.path.join(parser_args.export, Path(parser_args.audio).stem+"_logits.csv")
-logit_df.to_csv(logit_export_path, index=False)
+@app.post("/predict/")
+async def predict(file: UploadFile = File(...)):
+    if not file.filename.endswith(('.ogg', '.mp3', '.wav')):
+        return JSONResponse(status_code=400, content={"message": "Invalid file type"})
 
-classification_df = pd.DataFrame.from_dict(classification_dict, "index").rename_axis("row_id").reset_index()
-classification_export_path = os.path.join(parser_args.export, Path(parser_args.audio).stem+"_classification.csv")
-classification_df.to_csv(classification_export_path, index=False)
+    # Extract just the filename to avoid directory issues
+    filename = Path(file.filename).name
+    
+    temp_folder = 'temp'
+    if not os.path.exists(temp_folder):
+        os.makedirs(temp_folder)
+        
+    audio_path = f'{temp_folder}/{filename}'
 
-print(f"Done! Exported predictions to {logit_export_path} and {classification_export_path}")
+    # Save the uploaded file to the temp directory
+    contents = await file.read()
+    with open(audio_path, 'wb') as f:
+        f.write(contents)
+
+    try:
+        # Perform predictions
+        prediction_dict, classification_dict = prediction_for_clip(audio_path)
+        for row_id, predictions in classification_dict.items():
+            classification_dict[row_id] = {k: float(v) if isinstance(v, np.float32) else v for k, v in predictions.items()}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    # Clean up temporary file
+    os.remove(audio_path)
+
+    return classification_dict
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=5000)
