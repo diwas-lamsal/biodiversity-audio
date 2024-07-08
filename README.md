@@ -14,11 +14,11 @@ To train models with the provided code:
 - **Download Bird Data**: [Access the dataset here](https://qnap-2.aicenter.dynu.com/share.cgi?ssid=1fb4aa1ecbbc4ea8ac8a2c447e80453b).
 
 ### Note on Missing Species
-Due to restrictions on xeno-canto, data for the following species are not included:
+Due to restrictions on xeno-canto, data for the following species are not included at the time of writing:
 - **Copsychus malabaricus**: [Species Info](https://xeno-canto.org/species/Copsychus-malabaricus)
 - **Copsychus saularis**: [Species Info](https://xeno-canto.org/species/Copsychus-saularis)
 
-These may be downloaded directly from [xeno-canto](https://xeno-canto.org/) using their [API](https://github.com/ntivirikin/xeno-canto-py).
+If available in the future, these may be downloaded directly from [xeno-canto](https://xeno-canto.org/) or using an [API](https://github.com/ntivirikin/xeno-canto-py).
 
 ## Handling Corrupt Audio Data
 
