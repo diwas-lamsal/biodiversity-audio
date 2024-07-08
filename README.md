@@ -1,6 +1,6 @@
 # Biodiversity Audio Classification
 
-Biodiversity Audio Classification repository. This project is dedicated to training machine learning models to classify audio recordings of wildlife, with a specific focus on bird species from Chiang Mai, Thailand. It is possible to expand the classifier to more bird species or other animals based on their sounds as heard in their natural habitat. 
+Biodiversity Audio Classification repository. This project is dedicated to training machine learning models to classify audio recordings of wildlife, with a specific focus on bird species from Chiang Mai, Thailand. It is possible to classify more bird species or other animals based on their sounds as heard in their natural habitat. 
 
 ## Quick Start with Docker
 
@@ -20,9 +20,9 @@ These may be downloaded directly from [xeno-canto](https://xeno-canto.org/) usin
 
 ## Handling Corrupt Audio Data
 
-Some audio files may be corrupted. To address this issue, instructions for re-encoding the audio using ffmpeg are provided in the `first_steps` folder.
+Some audio files may be corrupted. To address this issue, instructions for re-encoding the audio using ffmpeg are provided in the [`first_steps`](./first_steps/) folder.
 
 ## Training and Inference
 
-- **Training**: Follow the detailed instructions in the `train_audio` folder.
-- **Inference**: Guidelines are provided in the `infer` folder to help you run models and make predictions.
+- **Training**: Follow the detailed instructions in the [`train_audio`](./train_audio/) folder.
+- **Inference**: Guidelines are provided in the [`infer`](./infer/) folder to help you run models and make predictions.
