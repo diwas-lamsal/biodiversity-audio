@@ -10,7 +10,6 @@ cfg.apex = True  # [True, False]
 ######################
 cfg.seed = 42
 cfg.epochs = 200
-cfg.external = True  # [True, False]
 cfg.use_sampler = False  # [True, False]
 
 ######################
@@ -19,7 +18,6 @@ cfg.use_sampler = False  # [True, False]
 cfg.train_audio_dir = "./data/sounds/"
 cfg.train_df_dir = "./data/dataframes/"
 cfg.train_pkl_file = "ait_train_meta.pickle"
-cfg.nocall_pkl_file = "ff1010bird_metadata_v1_pseudo.pickle"
 cfg.short_noise_dir = "./data/external/esc50/use_label"
 cfg.background_noise_dir = "./data/external/zenodo_nocall_30sec"
 

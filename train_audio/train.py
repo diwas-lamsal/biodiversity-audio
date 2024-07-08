@@ -1,6 +1,5 @@
 import argparse
 import sys
-import gc
 from copy import copy
 import importlib
 import torch
@@ -20,7 +19,7 @@ from model import AttModel
 sys.path.append('./configs')
 
 parser = argparse.ArgumentParser(description="")
-parser.add_argument("-C", "--config", help="config filename", default="ait_bird_exp_001")
+parser.add_argument("-C", "--config", help="config filename", default="ait_bird_local")
 parser_args, _ = parser.parse_known_args(sys.argv)
 CFG = copy(importlib.import_module(parser_args.config).cfg)
 
@@ -39,19 +38,6 @@ os.makedirs(os.path.join(CFG.model_output_path), exist_ok=True)
 
 with open(TRAIN_DF_PATH + CFG.train_pkl_file, 'rb') as f:
     train = pickle.load(f)
-
-if CFG.external:
-    with open(TRAIN_DF_PATH + CFG.nocall_pkl_file, 'rb') as f:
-        external = pickle.load(f)
-    external["type"] = '[]'
-    external["fold"] = -1
-    external["rating"] = 1
-    external["filename"] = 'nocall/' + external['filename']
-    del external['length']
-
-    print(external.shape)
-    external.head()
-    train = pd.concat([train, external]).reset_index(drop=True)
 
 train["rating"] = np.clip(train["rating"] / train["rating"].max(), 0.1, 1.0)
 
@@ -145,9 +131,6 @@ if CFG.pretrained_weights:
     del checkpoint
 
 model = model.to(device)
-
-del external
-gc.collect()
 
 criterion = torch.nn.BCEWithLogitsLoss(reduction='mean')
 

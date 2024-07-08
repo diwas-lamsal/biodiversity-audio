@@ -20,6 +20,7 @@ data = {
     'rating': [],
     'filename': [],
     'fold': [],
+    'type': [],
 }
 
 # Process each bird species folder
@@ -30,7 +31,7 @@ for species in bird_species:
             if file.endswith('.mp3'):
                 # Extract rating from filename
                 file_suffix = file.split('-')[-1][1]  # Expecting format like 'XC629222 - Species - B.mp3'
-                rating = ratings_map.get(file_suffix, None)
+                rating = ratings_map.get(file_suffix, 1.0)
                 
                 # Add data to lists
                 data['primary_label'].append(species)
@@ -39,6 +40,7 @@ for species in bird_species:
                 data['rating'].append(rating)
                 data['filename'].append(f"{species}/{file}")
                 data['fold'].append(0)  # All folds set to 0 as specified
+                data['type'].append('[]')  # All folds set to 0 as specified
 
 # Create DataFrame
 df = pd.DataFrame(data)
