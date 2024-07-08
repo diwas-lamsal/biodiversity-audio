@@ -2,7 +2,7 @@
 
 Biodiversity Audio Classification repository. This project is dedicated to training machine learning models to classify audio recordings of wildlife, with a specific focus on bird species from Chiang Mai, Thailand. It is possible to classify more bird species or other animals based on their sounds as heard in their natural habitat. 
 
-The codebase is adapted from [BirdCLEF 2023 4th Place Solution](https://www.kaggle.com/competitions/birdclef-2023/discussion/412753). 
+The codebase is adapted from [BirdCLEF 2023 4th Place Solution](https://www.kaggle.com/competitions/birdclef-2023/discussion/412753). We train without knowledge distillation and only for a single fold for simplicity. 
 
 ## Quick Start with Docker
 

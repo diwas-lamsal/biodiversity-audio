@@ -3,8 +3,8 @@ import pandas as pd
 import pickle
 
 # Define the path to the bird sound files
-base_path = '/home/aic-multicam20/biodiversity/Dataset/AIC_BirdDataset'
-sound_path = '/home/aic-multicam20/biodiversity/Dataset/AIC_BirdDataset/sounds'
+save_path = './data/dataframes'
+sound_path = './data/sounds'
 
 # List of all bird species directories
 bird_species = os.listdir(sound_path)
@@ -43,8 +43,7 @@ for species in bird_species:
 # Create DataFrame
 df = pd.DataFrame(data)
 
-
-output_path = os.path.join(base_path, "ait_train_meta.pickle")
+output_path = os.path.join(save_path, "ait_train_meta.pickle")
 try:
     # Save the DataFrame as a pickle file
     df.to_pickle(output_path)
