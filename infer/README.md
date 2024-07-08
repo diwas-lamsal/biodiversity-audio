@@ -27,5 +27,10 @@ Each row in the output CSVs corresponds to a 5-second segment of the audio data.
 - For instance, the suffix `_5` refers to the first 5 seconds of the audio.
 
 ### Microservice 
-Code for running inference as a microservice to be added soon.
+For running the microservice, the default setup is included in the `microservice.py` file. Changes to the model, configuration file, or logic should be included in this file. When starting the container with the command
+```bash
+run_docker.sh start-container 
+```
+a container instance is spawned with the microservice enabled. Using default settings, and runnign the container on the same network as the host, the example from `test_microservice.py` can be followed to test inference. 
 
+The microservice expects an audio file and returns the 5-second interval predictions in json format.  

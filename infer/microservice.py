@@ -20,11 +20,8 @@ sys.path.append('./configs')
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("-C", "--config", help="config filename", default="ait_bird_local")
 parser.add_argument("-W", "--weight", help="weight path", default="./weights/ait_bird_local_eca_nfnet_l0/fold_0_model.pt")
-parser.add_argument("-A", "--audio", help="audio file path", default="./data/soundscape_29201.ogg")
-parser.add_argument("-E", "--export", help="export folder path", default="./exports/")
 parser_args, _ = parser.parse_known_args(sys.argv)
 CFG = copy(importlib.import_module(parser_args.config).cfg)
-
 
 model = AttModel(
     backbone=CFG.backbone,
@@ -91,7 +88,6 @@ def prediction_for_clip(audio_path):
             classification_dict[row_id]['Score'] = np.max(logits)
 
     return prediction_dict, classification_dict
-
 
 
 @app.post("/predict/")
