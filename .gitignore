@@ -19,6 +19,11 @@ preprocess/data/images/*
 preprocess/data/sounds/*
 preprocess/data/temp/*
 
+infer/data/*
+infer/weights/*
+ifner/output/*
+infer/exports/*
+
 !*/.gitkeep
 !*/*/.gitkeep
 !*/*/*/.gitkeep
