@@ -27,17 +27,22 @@ parser.add_argument("-E", "--export", help="export folder path", default="./expo
 parser_args, _ = parser.parse_known_args(sys.argv)
 CFG = copy(importlib.import_module(parser_args.config).cfg)
 
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
+state_dict = torch.load(parser_args.weight, map_location=device)['state_dict']
+
 model = AttModel(
     backbone=CFG.backbone,
     num_class=CFG.num_classes,
     infer_period=5,
     cfg=CFG,
-    training=False
+    training=False,
+    device=device
 )
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-state_dict = torch.load(parser_args.weight, map_location=device)['state_dict']
 model.load_state_dict(state_dict)
+model = model.to(device)
+model.logmelspec_extractor = model.logmelspec_extractor.to(device)
 
 def prediction_for_clip(audio_path):
     
@@ -80,7 +85,7 @@ def prediction_for_clip(audio_path):
             output = model(inputs)['logit']
 
         for row_id_idx, row_id in enumerate(row_ids):
-            prediction_dict[str(row_id)]= output[row_id_idx, :].sigmoid().detach().numpy()
+            prediction_dict[str(row_id)]= output[row_id_idx, :].sigmoid().detach().cpu().numpy()
             # prediction_dict[str(row_id)] = F.softmax(output[row_id_idx, :], dim=0).detach().numpy()
             
     for row_id in list(prediction_dict.keys()):

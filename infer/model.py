@@ -97,6 +97,7 @@ class AttModel(nn.Module):
         in_chans=1,
         cfg=None,
         training=True,
+        device=torch.device("cpu")
     ):
         super().__init__()
 
@@ -144,6 +145,7 @@ class AttModel(nn.Module):
         self.head = nn.Linear(dense_input, num_class)
         
         self.training = training
+        self.device = device
 
     def forward(self, input):
 
@@ -155,7 +157,7 @@ class AttModel(nn.Module):
         else:
             x = input['wave']
             y = input["loss_target"]
-
+        x = x.to(self.device)
         x = self.logmelspec_extractor(x)[:, None]
 
         if self.training:
