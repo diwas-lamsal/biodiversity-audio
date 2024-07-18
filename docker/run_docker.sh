@@ -15,7 +15,7 @@ WORKDIR="/home/work"
 
 # Check if the 'start-service' command is provided
 if [ "$1" == "start-service" ]; then
-    CMD="python3 microservice.py"
+    CMD="python3 microservice.py --device cpu"
     WORKDIR="/home/work/infer"  # Set the working directory to the 'infer' folder
 fi
 
