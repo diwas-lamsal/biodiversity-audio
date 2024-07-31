@@ -3,21 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-train_image/data/images/*
-train_image/data/*
-train_image/working/
-
 train_audio/data/sounds/*
 train_audio/data/dataframes/*
 train_audio/data/external/*
 train_audio/pretrained/*
 train_audio/out_weights/*
 train_audio/logs/*
-
-preprocess/data/*.csv
-preprocess/data/images/*
-preprocess/data/sounds/*
-preprocess/data/temp/*
 
 infer/data/*
 infer/weights/*
