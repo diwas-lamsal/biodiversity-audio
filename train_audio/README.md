@@ -21,8 +21,6 @@ Run `create_custom_pkl_df.py` with correct paths to generate a DataFrame pickle 
 ```
 ├── dataframes
 │   ├── ait_train_meta.pickle
-│   ├── ff1010bird_metadata_v1_pseudo.pickle
-│   └── sample_ait_train_meta.pickle
 ├── external
 │   ├── esc50
 │   └── zenodo_nocall_30sec
