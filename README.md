@@ -12,6 +12,7 @@ We provide a Docker environment that encapsulates all necessary dependencies. Fi
 
 To train models with the provided code:
 - **Download Bird Data**: [Access the dataset here](https://qnap-2.aicenter.dynu.com/share.cgi?ssid=1fb4aa1ecbbc4ea8ac8a2c447e80453b).
+- **Preprocessing Corrupt Audio**: For a lot of audio files downloaded directly from xeno-canto, there is a possibility that the audio files may be corrupt due to bad header files or some other reason. To address this issue, instructions for re-encoding the audio using ffmpeg are provided in the [`first_steps`](./first_steps/) folder.
 
 ### Note on Missing Species
 Due to restrictions on xeno-canto, data for the following species are not included at the time of writing:
@@ -20,9 +21,6 @@ Due to restrictions on xeno-canto, data for the following species are not includ
 
 If available in the future, these may be downloaded directly from [xeno-canto](https://xeno-canto.org/) or using an [API](https://github.com/ntivirikin/xeno-canto-py).
 
-## Handling Corrupt Audio Data
-
-Some audio files may be corrupted. To address this issue, instructions for re-encoding the audio using ffmpeg are provided in the [`first_steps`](./first_steps/) folder.
 
 ## Training and Inference
 
