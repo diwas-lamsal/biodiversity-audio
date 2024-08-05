@@ -102,14 +102,15 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
         rating = self.rating[idx]
 
         target = np.zeros(self.cfg.num_classes, dtype=np.float32)
-        if self.primary_label[idx] != 'nocall':
-            primary_label = self.cfg.bird2id[self.primary_label[idx]]
-            target[primary_label] = 1.0
+        
+        # if self.primary_label[idx] != 'nocall':
+        primary_label = self.cfg.bird2id[self.primary_label[idx]]
+        target[primary_label] = 1.0
 
-            if self.train:
-                for s in self.secondary_labels[idx]:
-                    if s != "" and s in self.cfg.bird2id.keys():
-                        target[self.cfg.bird2id[s]] = self.secondary_coef
+        if self.train:
+            for s in self.secondary_labels[idx]:
+                if s != "" and s in self.cfg.bird2id.keys():
+                    target[self.cfg.bird2id[s]] = self.secondary_coef
 
         target = torch.from_numpy(target).float()
 
