@@ -27,5 +27,6 @@ docker run -it --rm --gpus all \
     -v $MAIN_DIR:/home/work \
     --shm-size 16G \
     --workdir $WORKDIR \
+    --name $NAME \
     $NAME \
     $CMD
