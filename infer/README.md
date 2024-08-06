@@ -17,6 +17,9 @@ python3 infer.py --config ait_bird_local --weight ./weights/ait_bird_local_eca_n
 ```
 This command will run inference on the audio file `./data/soundscape_29201.ogg` using the model stored at `./weights/ait_bird_local_eca_nfnet_l0/fold_0_model.pt`. The results will be exported to the `./exports/` directory.
 
+### Download Pretrained Weights
+Download (pretrained weights)[https://drive.google.com/drive/folders/16oEEUIQ_Vk643FvqOJCPdeKUgTV1dxrP?usp=sharing] and save them inside the weights folder.
+
 ### Output Details
 Two CSV files are generated for each audio file:
 - **Logits CSV**: Contains the logits for all species, named with the `_logits` suffix.
