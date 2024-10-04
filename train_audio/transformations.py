@@ -1,6 +1,7 @@
 import audiomentations as AA
 import torch_audiomentations as TAA
 
+
 def get_transformations(cfg):
     tr_transforms = AA.Compose(
         [
@@ -52,4 +53,3 @@ def get_transformations(cfg):
     )
 
     return tr_transforms, taa_augmentation
-

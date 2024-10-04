@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+
 def load_problem_files_from_log(log_file):
     """Load paths of problematic files from the log file."""
     problem_files = []
@@ -12,6 +13,7 @@ def load_problem_files_from_log(log_file):
     print(problem_files)
     return problem_files
 
+
 def reencode_files(problem_files):
     """Re-encode the specified audio files."""
     for file_path in problem_files:
@@ -21,6 +23,7 @@ def reencode_files(problem_files):
         # Move the temp file back to the original file path to replace it
         os.replace(temp_file_path, file_path)
         print(f"Re-encoded and replaced {file_path}")
+
 
 if __name__ == "__main__":
     log_file = 'audio_processing_issues.log'

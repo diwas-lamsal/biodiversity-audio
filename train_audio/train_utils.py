@@ -18,12 +18,15 @@ def set_seed(seed=42):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
+
 def get_device() -> torch.device:
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 def batch_to_device(batch, device):
     batch_dict = {key: batch[key].to(device) for key in batch}
     return batch_dict
+
 
 def init_logger(log_file='train.log'):
     from logging import INFO, FileHandler, Formatter, StreamHandler, getLogger
@@ -36,7 +39,6 @@ def init_logger(log_file='train.log'):
     logger.addHandler(handler1)
     logger.addHandler(handler2)
     return logger
-
 
 
 def padded_cmap(solution, submission, padding_factor=5):
@@ -58,6 +60,7 @@ def padded_cmap(solution, submission, padding_factor=5):
     )
     return score
 
+
 def map_score(solution, submission):
     solution = solution  # .drop(['row_id'], axis=1, errors='ignore')
     submission = submission  # .drop(['row_id'], axis=1, errors='ignore')
@@ -67,7 +70,6 @@ def map_score(solution, submission):
         average='micro',  # 'macro'
     )
     return score
-
 
 
 class AverageMeter(object):
@@ -89,9 +91,7 @@ class AverageMeter(object):
         self.avg = self.sum / self.count
 
 
-
 def train_fn(data_loader, model, criterion, optimizer, scheduler, epoch, device, taa_augmentation, cfg=None):
-
     model.train()
     losses = AverageMeter()
     optimizer.zero_grad(set_to_none=True)
@@ -143,7 +143,6 @@ def train_fn(data_loader, model, criterion, optimizer, scheduler, epoch, device,
     return losses.avg, cmAP_1, cmAP_5, mAP
 
 
-
 def valid_fn(data_loader, model, criterion, epoch, device, cfg=None):
     model.eval()
     losses = AverageMeter()
@@ -175,7 +174,6 @@ def valid_fn(data_loader, model, criterion, epoch, device, cfg=None):
     return losses.avg, cmAP_1, cmAP_5, mAP
 
 
-
 def train_loop(
     train_loader,
     val_loader,
@@ -205,7 +203,9 @@ def train_loop(
         val_loss, val_score, val_cmAP5, val_mAP = valid_fn(
             val_loader, model, criterion, epoch, device, cfg=cfg)
 
-        logger.info(f"Epoch {epoch} - Train loss: {train_loss:.4f}, Train cmAP1: {train_score:.4f}, Train cmAP5: {train_cmAP5:.4f}, Train mAP: {train_mAP:.4f}, Valid loss: {val_loss:.4f}, Valid cmAP1: {val_score:.4f}, Valid cmAP5: {val_cmAP5:.4f}, Valid mAP: {val_mAP:.4f}")
+        logger.info(f"Epoch {epoch} - Train loss: {train_loss:.4f}, Train cmAP1: {train_score:.4f}, "
+                    f"Train cmAP5: {train_cmAP5:.4f}, Train mAP: {train_mAP:.4f}, Valid loss: {val_loss:.4f}, "
+                    f"Valid cmAP1: {val_score:.4f}, Valid cmAP5: {val_cmAP5:.4f}, Valid mAP: {val_mAP:.4f}")
 
         is_better = val_score > best_score
         best_score = max(val_score, best_score)

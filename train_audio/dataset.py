@@ -4,6 +4,7 @@ import numpy as np
 import librosa
 import os
 
+
 class BirdClef2023Dataset(torch.utils.data.Dataset):
     def __init__(
         self,
@@ -14,7 +15,7 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
         df: pd.DataFrame = 'DATAFRAME',
         train: bool = True,
         tr_transforms: list = [],
-        cfg = None,
+        cfg=None,
     ):
 
         self.df = df
@@ -44,12 +45,11 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.df)
-    
-    
+
     def load_wave_and_crop(self, filename, period, start=None):
 
         waveform_orig, sample_rate = librosa.load(filename, sr=32000, mono=False)
-        
+
         # Check if the waveform is stereo (two channels)
         if waveform_orig.ndim == 2:
             # If stereo, you can average the channels to create a mono waveform
@@ -59,7 +59,7 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
         waveform = np.concatenate([waveform_orig, waveform_orig, waveform_orig])
 
         effective_length = sample_rate * period
-        
+
         while len(waveform) < (period * sample_rate * 3):
             waveform = np.concatenate([waveform, waveform_orig])
         if start is not None:
@@ -78,8 +78,6 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
         waveform_seg = waveform[start: start + int(effective_length)]
 
         return waveform_orig, waveform_seg, sample_rate, start
-
-
 
     def __getitem__(self, idx):
 
@@ -102,7 +100,7 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
         rating = self.rating[idx]
 
         target = np.zeros(self.cfg.num_classes, dtype=np.float32)
-        
+
         # if self.primary_label[idx] != 'nocall':
         primary_label = self.cfg.bird2id[self.primary_label[idx]]
         target[primary_label] = 1.0
@@ -120,4 +118,3 @@ class BirdClef2023Dataset(torch.utils.data.Dataset):
             "primary_targets": (target > 0.5).float(),
             "loss_target": target * (1-self.smooth_label) + self.smooth_label / target.size(-1),
         }
-

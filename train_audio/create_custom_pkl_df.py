@@ -1,7 +1,7 @@
 import os
 import pandas as pd
-import pickle
 import pathlib
+
 
 # Define the path to the bird sound files
 save_path = './data/dataframes'
@@ -33,7 +33,7 @@ for species in bird_species:
             if file_ext in ['mp3', 'avi', 'flac', 'ogg', 'wav', 'aac']:
                 # Extract rating from filename
                 file_suffix = file.split('-')[-1][1]  # Expecting format like 'XC629222 - Species - B.mp3'
-                rating = ratings_map.get(file_suffix, 5.0) # If no rating provided, assuming high quality
+                rating = ratings_map.get(file_suffix, 5.0)  # If no rating provided, assuming high quality
                 # Add data to lists
                 data['primary_label'].append(species)
                 data['secondary_labels'].append("[]")
