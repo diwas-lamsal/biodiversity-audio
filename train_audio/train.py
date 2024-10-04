@@ -4,7 +4,6 @@ from copy import copy
 import importlib
 import torch
 import os
-import pandas as pd
 import numpy as np
 import pickle
 from sklearn.model_selection import train_test_split
@@ -15,6 +14,7 @@ from train_utils import init_logger, get_device, set_seed, train_loop
 from sampler import MultilabelBalancedRandomSampler
 from dataset import BirdClef2023Dataset
 from model import AttModel
+
 
 sys.path.append('./configs')
 
@@ -88,8 +88,8 @@ trn_dataset = BirdClef2023Dataset(
         secondary_coef=CFG.secondary_coef,
         train=True,
         df=trn_df,
-        tr_transforms = tr_transforms,
-        cfg = CFG,
+        tr_transforms=tr_transforms,
+        cfg=CFG,
 )
 loaders['train'] = torch.utils.data.DataLoader(
     trn_dataset,
@@ -102,7 +102,7 @@ val_dataset = BirdClef2023Dataset(
         secondary_coef=CFG.secondary_coef,
         train=False,
         df=val_df,
-        cfg = CFG,
+        cfg=CFG,
 )
 loaders['valid'] = torch.utils.data.DataLoader(
     val_dataset,
@@ -140,8 +140,7 @@ optimizer = torch.optim.AdamW(
     betas=(0.9, 0.999),
     eps=1e-08,
     weight_decay=CFG.weight_decay,
-    amsgrad=False,
-    )
+    amsgrad=False)
 scheduler = CosineLRScheduler(
     optimizer,
     t_initial=10,

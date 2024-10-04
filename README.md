@@ -26,3 +26,10 @@ If available in the future, these may be downloaded directly from [xeno-canto](h
 
 - **Training**: Follow the detailed instructions in the [`train_audio`](./train_audio/) folder.
 - **Inference**: Guidelines are provided in the [`infer`](./infer/) folder to help you run models and make predictions.
+
+## Install Flake8 linter
+1. Run `pip install pre-commit`
+2. Check if pre-commit is installed `pre-commit --version`
+3. Run `pre-commit install`
+
+This will block commit if there is error in staged files.
