@@ -1,35 +1,31 @@
+import argparse
 import os
-import warnings
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
 import librosa
 import torch
-from tqdm.auto import tqdm
-import argparse
-import sys
-from copy import copy
-import importlib
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+
 from dataset import TestDataset
 from model import AttModel
+from monsoon_biodiversity_common.config import cfg as CFG
 
 
-warnings.filterwarnings("ignore")
-
-sys.path.append('./configs')
-
-parser = argparse.ArgumentParser(description="")
-parser.add_argument("-C", "--config", help="config filename", default="ait_bird_local")
-parser.add_argument("-W", "--weight", help="weight path",
+parser = argparse.ArgumentParser()
+parser.add_argument("-W", "--weight", help="Weight file of sound classifier model",
                     default="./weights/ait_bird_local_eca_nfnet_l0/fold_0_model.pt")
-parser.add_argument("-A", "--audio", help="audio file path", default="./data/soundscape_29201.ogg")
-parser.add_argument("-E", "--export", help="export folder path", default="./exports/")
-parser_args, _ = parser.parse_known_args(sys.argv)
-CFG = copy(importlib.import_module(parser_args.config).cfg)
+parser.add_argument("-I", "--input-directory", type=str, required=True,
+                    help="Path to a device directory containing the audio files to be processed")
+parser.add_argument("-C", "--class", type=int, required=True,
+                    help="Biodiversity ground truth class/level to set entire prediction of this dataset to be."
+                         "For example, if it is 1, it mean that this entire dataset is collect from low biodiversity")
+parser.add_argument("--db-filename", type=str, default="score-training-data.db",
+                    help="Filename of SQLite database file to be created")
+parser_args = parser.parse_args()
 
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = torch.device("cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 state_dict = torch.load(parser_args.weight, map_location=device)['state_dict']
 
 model = AttModel(
@@ -87,16 +83,18 @@ def prediction_for_clip(audio_path):
         with torch.no_grad():
             output = model(inputs)['logit']
 
-        for row_id_idx, row_id in enumerate(row_ids):
-            prediction_dict[str(row_id)] = output[row_id_idx, :].sigmoid().detach().cpu().numpy()
-            # prediction_dict[str(row_id)] = F.softmax(output[row_id_idx, :], dim=0).detach().numpy()
+            for row_id_idx, row_id in enumerate(row_ids):
+                prediction_dict[str(row_id)] = output[row_id_idx, :].sigmoid().detach().cpu().numpy()
+                # prediction_dict[str(row_id)] = F.softmax(output[row_id_idx, :], dim=0).detach().numpy()
 
     for row_id in list(prediction_dict.keys()):
         logits = np.array(prediction_dict[row_id])
         prediction_dict[row_id] = {}
         classification_dict[row_id] = {}
         for label in range(len(CFG.target_columns)):
+            # logit for each class
             prediction_dict[row_id][CFG.target_columns[label]] = logits[label]
+            # this doesn't actually do anything, it repeat the same assignment
             classification_dict[row_id]['Class'] = CFG.target_columns[np.argmax(logits)]
             classification_dict[row_id]['Score'] = np.max(logits)
 
